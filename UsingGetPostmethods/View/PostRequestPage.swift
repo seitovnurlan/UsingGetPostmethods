@@ -70,26 +70,29 @@ class PostRequestPage: UIViewController {
             make.width.equalTo(300)
         }
     }
+    private func checktext(_ name: UITextField) -> Bool {
+        var b: Bool = false
+        if name.text?.isEmpty ?? true {
+            b = true
+            name.layer.borderWidth = 2
+            name.layer.borderColor = UIColor.red.cgColor
+            name.placeholder = "Please fill in the information"
+        }
+        return b
+    }
     
     @objc private func postRequest(sender: UIButton) {
         let number: Int = 0
-        if textField1.text?.isEmpty ?? true {
-            textField1.layer.borderWidth = 2
-            textField1.layer.borderColor = UIColor.red.cgColor
-            textField1.placeholder = "Please fill in the information"
-        } else
+         checktext(textField1?.text)
+         checktext(textField2?.text)
+       
             if number != Int(textField1.text!) {
                 textField1.text = ""
                 textField1.layer.borderWidth = 2
                 textField1.layer.borderColor = UIColor.red.cgColor
                 textField1.placeholder = "Not a valid number"
             }
-          else
-                if textField2.text?.isEmpty ?? true {
-                    textField2.layer.borderWidth = 2
-                    textField2.layer.borderColor = UIColor.red.cgColor
-                    textField2.placeholder = "Please fill in the information"
-                }
+        
         else
         {
             ApiManager.shared.postRequest(id: Int(textField1.text!)!, title: textField2.text!) { result in
