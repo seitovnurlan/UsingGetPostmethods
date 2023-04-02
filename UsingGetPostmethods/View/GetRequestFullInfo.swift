@@ -48,8 +48,8 @@ class GetRequestFullInfo: UIViewController {
     let imagView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleToFill
-        image.layer.cornerRadius = 10
-        image.layer.borderWidth = 2
+        image.layer.cornerRadius = 16
+        image.layer.borderWidth = 1
         image.layer.borderColor = UIColor.gray.cgColor
         image.clipsToBounds = true
         return image

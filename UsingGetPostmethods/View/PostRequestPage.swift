@@ -82,17 +82,23 @@ class PostRequestPage: UIViewController {
     }
     
     @objc private func postRequest(sender: UIButton) {
-        let number: Int = 0
-         checktext(textField1?.text)
-         checktext(textField2?.text)
+    
+//         checktext(textField1?.text)
+//         checktext(textField2?.text)
        
-            if number != Int(textField1.text!) {
-                textField1.text = ""
-                textField1.layer.borderWidth = 2
-                textField1.layer.borderColor = UIColor.red.cgColor
-                textField1.placeholder = "Not a valid number"
-            }
-        
+        if (Int(textField1.text!) == nil) || (textField1.text?.isEmpty ?? true) || (textField2.text?.isEmpty ?? true)
+        {
+            print(textField1.text!)
+            textField1.text = ""
+            textField1.layer.borderWidth = 2
+            textField1.layer.borderColor = UIColor.red.cgColor
+            textField1.placeholder = "Not a valid number or empty"
+            
+            textField2.layer.borderWidth = 2
+            textField2.layer.borderColor = UIColor.red.cgColor
+            textField2.placeholder = "Not a valid number or empty"
+            
+        }
         else
         {
             ApiManager.shared.postRequest(id: Int(textField1.text!)!, title: textField2.text!) { result in

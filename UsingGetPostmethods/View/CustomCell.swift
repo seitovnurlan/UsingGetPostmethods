@@ -34,6 +34,9 @@ class CustomCell: UITableViewCell {
         image.contentMode = .scaleToFill
         image.layer.masksToBounds = true
         image.clipsToBounds = true
+//        image.layer.cornerRadius = 15
+        image.layer.borderWidth = 1
+        image.layer.borderColor = UIColor.gray.cgColor
         return image
     } ()
     
