@@ -11,26 +11,35 @@ class PostRequestPage: UIViewController {
     
     private lazy var textField1: UITextField = {
         let text = UITextField()
-        text.backgroundColor = .lightGray
-        text.placeholder = "Input ID"
+        text.backgroundColor = .systemGray6
+        text.placeholder = " Input ID"
         text.layer.cornerRadius = 10
+        text.layer.borderWidth = 1
+        text.layer.borderColor = UIColor.gray.cgColor
+        text.addTarget(self, action: #selector(textFieldAction(_ :)), for: .editingChanged)
         return text
     } ()
     
     private lazy var textField2: UITextField = {
         let text = UITextField()
-        text.backgroundColor = .lightGray
-        text.placeholder = "Input Product Title"
+        text.backgroundColor = .systemGray6
+        text.placeholder = " Input Product Title"
         text.layer.cornerRadius = 10
+        text.layer.borderWidth = 1
+        text.layer.borderColor = UIColor.gray.cgColor
+        text.addTarget(self, action: #selector(textFieldAction(_ :)), for: .editingChanged)
         return text
     } ()
     
     private lazy var postRequest: UIButton = {
         let post = UIButton(type: .system)
         post.setTitle("POST", for: .normal)
-        post.backgroundColor = .systemRed
+        post.backgroundColor = .lightGray
+        post.isEnabled = false
         post.setTitleColor(.white, for: .normal)
         post.layer.cornerRadius = 10
+        post.layer.borderWidth = 1
+        post.layer.borderColor = UIColor.gray.cgColor
         post.addTarget(self, action: #selector(postRequest(sender:)), for: .touchUpInside)
         return post
     } ()
@@ -49,7 +58,8 @@ class PostRequestPage: UIViewController {
     private func setupConstrainPost() {
         view.addSubview(textField1)
         textField1.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
+            make.top.equalTo(view.snp.top).offset(300)
+            make.centerX.equalToSuperview()
             make.height.equalTo(50)
             make.width.equalTo(300)
         }
@@ -70,16 +80,25 @@ class PostRequestPage: UIViewController {
             make.width.equalTo(300)
         }
     }
-    private func checktext(_ name: UITextField) -> Bool {
-        var b: Bool = false
-        if name.text?.isEmpty ?? true {
-            b = true
-            name.layer.borderWidth = 2
-            name.layer.borderColor = UIColor.red.cgColor
-            name.placeholder = "Please fill in the information"
+    private func checktext(_ textField: UITextField) {
+       
+        guard let text = textField.text else { return }
+        if text.isEmpty {
+            textField.layer.borderWidth = 2
+            textField.layer.borderColor = UIColor.red.cgColor
+            textField.placeholder = "Please fill in the information"
+        } else {
+            textField.layer.borderWidth = 0
         }
-        return b
     }
+    
+    @objc private func textFieldAction(_ sender: Any) {
+
+        if textField1.hasText && textField2.hasText {
+            postRequest.backgroundColor = .systemRed
+            postRequest.isEnabled = true }
+        }
+    
     
     @objc private func postRequest(sender: UIButton) {
     
@@ -101,6 +120,7 @@ class PostRequestPage: UIViewController {
         }
         else
         {
+            
             ApiManager.shared.postRequest(id: Int(textField1.text!)!, title: textField2.text!) { result in
                 switch result {
                 case .success(let data):
